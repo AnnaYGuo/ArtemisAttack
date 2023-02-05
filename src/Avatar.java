@@ -1,21 +1,32 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
-public class Avatar implements KeyListener, Sprite {
+public class Avatar extends JPanel implements Sprite{
     private Game game;
     private int x;
     private int y;
     private int dir; //0: left, 1: up, 2: right, 3: down
     private boolean[] signal = new boolean[5]; //last index = shoot
+    private KeyHandler keyHandler;
+    private int arrow = 0;
+
+    private Image test = Config.enemyImageSheet.getSubimage(0, 0, 32, 32).getScaledInstance(128, 128, Image.SCALE_SMOOTH);
 
     /**Avatar constructor, initialize to center*/
     Avatar(Game game){
-        this.x = Config.centerX;
-        this.y = Config.centerY;
+        keyHandler = new KeyHandler();
+        this.x = Config.centerX - 64;
+        this.y = Config.centerY - 64;
         this.dir = 0;
         this.game = game;
+        this.keyHandler = keyHandler;
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+        this.addKeyListener(keyHandler);
+
     }
     public BufferedImage print(){
         BufferedImage test = Config.enemyImageSheet.getSubimage(0, 0, 32, 32);
@@ -23,73 +34,50 @@ public class Avatar implements KeyListener, Sprite {
     }
     /**parse input commands, move avatar, create arrows if needed*/
     public void update(){
-        if(signal[0]){ x -= Config.unit; }
-        if(signal[1]){ y -= Config.unit; }
-        if(signal[2]){ x -= Config.unit; }
-        if(signal[3]){ y += Config.unit; }
+        signal = keyHandler.signal;
+        dir = keyHandler.dir;
+        if(signal[0]){ x -= Config.unit; keyHandler.signal[0] = false; }
+        if(signal[1]){ y -= Config.unit; keyHandler.signal[1] = false; }
+        if(signal[2]){ x += Config.unit; keyHandler.signal[2] = false; }
+        if(signal[3]){ y += Config.unit; keyHandler.signal[3] = false; }
         if(signal[4]) {
-            Arrow addArrow = new Arrow(game, x, y, dir);
+
+            //System.out.println(game.getArrows().size());
+
+            int tempX = x;
+            int tempY = y;
+            if(dir == 0){ tempX -=15; tempY += 57; }
+            else if(dir == 1){ tempX += 57; tempY -= 15; }
+            else if(dir == 2){ tempX += 133; tempY += 57; }
+            else if(dir == 3){ tempX += 57; tempY += 133; }
+            Arrow addArrow = new Arrow(game, tempX, tempY, dir);
             game.getArrows().add(addArrow);
+            addArrow.setOpaque(true);
+            addArrow.setBounds(tempX, tempY, 10, 10);
+            game.getLayer().add(addArrow, 3 + ((arrow++)%20));
+
+            addArrow.update();
+            //keyHandler.signal[4] = false;
         }
+        repaint();
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //intentionally empty for now
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        System.out.println("PRESS");
-        int code = e.getKeyCode();
-        switch(code){
-            case KeyEvent.VK_LEFT:
-                signal[0] = true;
-                dir = 0;
-                break;
-            case KeyEvent.VK_UP:
-                signal[1] = true;
-                dir = 1;
-                break;
-            case KeyEvent.VK_RIGHT:
-                signal[2] = true;
-                dir = 2;
-                break;
-            case KeyEvent.VK_DOWN:
-                signal[3] = true;
-                dir = 3;
-                break;
-            case KeyEvent.VK_SPACE:
-                signal[4] = true;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
-        switch(code){
-            case KeyEvent.VK_LEFT:
-                signal[0] = false;
-                break;
-            case KeyEvent.VK_UP:
-                signal[1] = false;
-                break;
-            case KeyEvent.VK_RIGHT:
-                signal[2] = false;
-                break;
-            case KeyEvent.VK_DOWN:
-                signal[3] = false;
-                break;
-            case KeyEvent.VK_SPACE:
-                signal[4] = false;
-            default:
-                break;
-        }
-    }
+    public boolean[] getSignal(){ return signal; }
     public int getX(){ return this.x; }
     public int getY(){ return this.y; }
     public int getWidth(){ return Config.avatarWidth; }
     public int getHeight(){ return Config.avatarHeight; }
+    @Override
+    protected void paintComponent(Graphics g) {
+        //super.paintComponent(g);
+        //System.out.println("HI");
+        g.clearRect(x, y, 128, 128);
+        this.setBounds(x, y, 128, 128);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage(test, 0, 0, game.getFrame());
+        g2.dispose();
+    }
+
+    public KeyHandler getKeyHandler(){ return keyHandler; }
+
 }
