@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 public class Enemy implements Sprite{
     private Game game;
     private int x;
@@ -31,8 +33,8 @@ public class Enemy implements Sprite{
         }
     }
 
-    public void print(){
-
+    public BufferedImage print(){
+        return Config.enemyImageSheet; //TODO
     }
     /**Update enemy position, check if within circle*/
     public void update(int targetX, int targetY){

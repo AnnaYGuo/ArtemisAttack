@@ -1,5 +1,7 @@
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 public class Avatar implements KeyListener, Sprite {
     private Game game;
@@ -15,8 +17,9 @@ public class Avatar implements KeyListener, Sprite {
         this.dir = 0;
         this.game = game;
     }
-    public void print(){
-
+    public BufferedImage print(){
+        BufferedImage test = Config.enemyImageSheet.getSubimage(0, 0, 32, 32);
+        return test;
     }
     /**parse input commands, move avatar, create arrows if needed*/
     public void update(){
@@ -37,19 +40,24 @@ public class Avatar implements KeyListener, Sprite {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("PRESS");
         int code = e.getKeyCode();
         switch(code){
             case KeyEvent.VK_LEFT:
                 signal[0] = true;
+                dir = 0;
                 break;
             case KeyEvent.VK_UP:
                 signal[1] = true;
+                dir = 1;
                 break;
             case KeyEvent.VK_RIGHT:
                 signal[2] = true;
+                dir = 2;
                 break;
             case KeyEvent.VK_DOWN:
                 signal[3] = true;
+                dir = 3;
                 break;
             case KeyEvent.VK_SPACE:
                 signal[4] = true;

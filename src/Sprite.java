@@ -1,5 +1,7 @@
+import java.awt.image.BufferedImage;
+
 public interface Sprite {
-    void print();
+    BufferedImage print();
     int getX();
     int getY();
     int getWidth();

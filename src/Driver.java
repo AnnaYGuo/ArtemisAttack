@@ -9,9 +9,7 @@ public class Driver{
         frame.setSize(Config.screenWidth, Config.screenHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ImageIcon imageIcon = new ImageIcon("map.png");
-        Image image = imageIcon.getImage().getScaledInstance(Config.screenWidth, Config.screenHeight, java.awt.Image.SCALE_SMOOTH);
-        JLabel background=new JLabel(new ImageIcon(image));
+        JLabel background=new JLabel(new ImageIcon(Config.backgroundImage));
 
         frame.add(background);
         frame.setVisible(true);

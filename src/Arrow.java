@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 public class Arrow implements Sprite{
     private Game game;
     private int x;
@@ -12,8 +14,8 @@ public class Arrow implements Sprite{
         this.dir = dir;
     }
 
-    public void print(){
-
+    public BufferedImage print(){
+        return Config.enemyImageSheet; //TODO
     }
     private boolean isOffScreen(){
         return false; //TEMP
