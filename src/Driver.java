@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Driver{
     private static JFrame frame;
@@ -12,7 +13,8 @@ public class Driver{
 
         //frame.setVisible(true);
     }
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
+
         printBackground();
         Game game = new Game();
         JLabel background=new JLabel(new ImageIcon(Config.backgroundImage));

@@ -2,6 +2,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class Game extends JPanel implements Runnable{
     private LinkedList<Arrow> arrows;
     private LinkedList<Enemy> enemies;
 
-    Game(){
+    Game() throws IOException {
         //KeyHandler keyHandler = new KeyHandler();
         //this.addKeyListener(keyHandler);
         avatar = new Avatar(this);
@@ -64,9 +65,19 @@ public class Game extends JPanel implements Runnable{
             enemy.repaint();
         }
     }
+    private void test(){
+        Enemy enemy = new Enemy(this);
+        enemy.setX(Config.centerX - 64);
+        enemy.setY(Config.centerY - 64);
+        enemy.setOpaque(true);
+        enemy.setBounds(enemy.getX(), enemy.getY(), 128, 128);
+        layer.add(enemy, 3);
+        enemy.death();
+    }
     public void start(JLayeredPane layer, JFrame frame){
         this.layer = layer;
         this.frame = frame;
+        //test();
         //layer.add(avatar, 2);
         /*JPanel avatarPanel = new JPanel(){
             @Override

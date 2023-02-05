@@ -1,8 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Avatar extends JPanel implements Sprite{
     private Game game;
@@ -13,10 +16,11 @@ public class Avatar extends JPanel implements Sprite{
     private KeyHandler keyHandler;
     private int arrow = 0;
 
-    private Image test = Config.enemyImageSheet.getSubimage(0, 0, 32, 32).getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+    private final Image test = (ImageIO.read(new File("mc.png"))).getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+    private final Image flip = (ImageIO.read(new File("mcflip.png"))).getScaledInstance(128, 128, Image.SCALE_SMOOTH);
 
     /**Avatar constructor, initialize to center*/
-    Avatar(Game game){
+    Avatar(Game game) throws IOException {
         keyHandler = new KeyHandler();
         this.x = Config.centerX - 64;
         this.y = Config.centerY - 64;
@@ -71,10 +75,15 @@ public class Avatar extends JPanel implements Sprite{
     protected void paintComponent(Graphics g) {
         //super.paintComponent(g);
         //System.out.println("HI");
-        g.clearRect(x, y, 128, 128);
+        //g.clearRect(x, y, 128, 128);
         this.setBounds(x, y, 128, 128);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(test, 0, 0, game.getFrame());
+        if(dir == 0){
+            g2.drawImage(flip, 0, 0, this);
+        }
+        else{
+            g2.drawImage(test, 0, 0, this);
+        }
         g2.dispose();
     }
 

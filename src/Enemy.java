@@ -9,7 +9,7 @@ public class Enemy extends JPanel implements Sprite{
     private int speed;
     private Image test = Config.enemyImageSheet.getSubimage(0, 0, 32, 32).getScaledInstance(128, 128, Image.SCALE_SMOOTH);
 
-    private boolean dead = false;
+    public boolean dead = false;
     private int deadInt;
     /**Enemy constructor: randomly generates off-screen enemy*/
     Enemy(Game game){
@@ -59,16 +59,36 @@ public class Enemy extends JPanel implements Sprite{
     public void death(){
         //TODO
         dead = true;
-        for(int deadInt = 0; deadInt < 9; deadInt++){;
+        double last = System.nanoTime();
+        int delay = 1;
+        try{
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+            repaint();
+            Thread.sleep(delay);
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        /*while(dead){;
             repaint();
             //g.drawImage(test, 0, 0, game.getFrame());
-            try{
-                Thread.sleep(1000);
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-        }
+
+            while(System.nanoTime() < last + 1000000000/60);
+            last = System.nanoTime();
+        }*/
         //super.paintComponent(this.getGraphics());
     }
     public int getX(){ return this.x; }
@@ -79,19 +99,30 @@ public class Enemy extends JPanel implements Sprite{
     protected void paintComponent(Graphics g) {
         //super.paintComponent(g);
         //g =this.getComponentGraphics(g);
-        g.clearRect(x, y, 128, 128);
+
 
         this.setBounds(x, y, 128, 128);
+
+        Graphics2D g2 = (Graphics2D) g;
+
         if(dead){
-            Graphics2D g2 = (Graphics2D) g;
-            g2.drawImage(Config.death[deadInt], 0, 0, game.getFrame());
-            g2.dispose();
-            System.out.println("loopDEATH");
+            if(deadInt < 9) {
+                g2.drawImage(Config.death[deadInt], 0, 0, this);
+
+                System.out.println("loopDEATH" + deadInt);
+                g2.dispose();
+                deadInt++;
+            }
+            if(deadInt == 9){ dead = false; }
         }
         else {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.drawImage(Config.death[5], 0, 0, game.getFrame());
+            //g.clearRect(x, y, 128, 128);
+            System.out.println("AKIVE");
+            g2.drawImage(Config.death[5], 0, 0, this);
             g2.dispose();
         }
     }
+
+    public void setX(int x){ this.x = x; }
+    public void setY(int y){ this.y = y; }
 }
