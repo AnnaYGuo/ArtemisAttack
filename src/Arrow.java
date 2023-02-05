@@ -1,4 +1,4 @@
-public class Arrow {
+public class Arrow implements Sprite{
     private Game game;
     private int x;
     private int y;
@@ -12,7 +12,7 @@ public class Arrow {
         this.dir = dir;
     }
 
-    private void print(){
+    public void print(){
 
     }
     private boolean isOffScreen(){
@@ -54,4 +54,8 @@ public class Arrow {
             game.getArrows().remove(this);
         }
     }
+    public int getX(){ return this.x; }
+    public int getY(){ return this.y; }
+    public int getWidth(){ return Config.arrowWidth; }
+    public int getHeight(){ return Config.arrowHeight; }
 }

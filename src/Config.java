@@ -1,11 +1,13 @@
-public class Config {
-    public static final int centerX = 100;
-    public static final int centerY = 100;
+import java.awt.*;
 
-    public static final int leftBound = 0;
-    public static final int rightBound = 1000;
-    public static final int upperBound = 0;
-    public static final int lowerBound = 1000;
+public class Config {
+    public static final int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    public static final int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+    public static final int centerX = screenWidth/2;
+    public static final int centerY = screenHeight/2;
+
+
 
     public static final int unit = 10;
 
@@ -14,4 +16,6 @@ public class Config {
     public static final int enemyWidth = 100; //even number
     public static final int arrowHeight = 100; //even number
     public static final int arrowWidth = 100; //even number
+    public static final int avatarHeight = 100;
+    public static final int avatarWidth = 100;
 }

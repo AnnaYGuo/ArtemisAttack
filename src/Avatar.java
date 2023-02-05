@@ -1,7 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Avatar implements KeyListener {
+public class Avatar implements KeyListener, Sprite {
     private Game game;
     private int x;
     private int y;
@@ -15,7 +15,7 @@ public class Avatar implements KeyListener {
         this.dir = 0;
         this.game = game;
     }
-    private void print(){
+    public void print(){
 
     }
     /**parse input commands, move avatar, create arrows if needed*/
@@ -24,9 +24,10 @@ public class Avatar implements KeyListener {
         if(signal[1]){ y -= Config.unit; }
         if(signal[2]){ x -= Config.unit; }
         if(signal[3]){ y += Config.unit; }
-        if(signal[4]){
+        if(signal[4]) {
             Arrow addArrow = new Arrow(game, x, y, dir);
-        } //TODO: wait for game file to call LL, then add
+            game.getArrows().add(addArrow);
+        }
     }
 
     @Override
@@ -79,4 +80,8 @@ public class Avatar implements KeyListener {
                 break;
         }
     }
+    public int getX(){ return this.x; }
+    public int getY(){ return this.y; }
+    public int getWidth(){ return Config.avatarWidth; }
+    public int getHeight(){ return Config.avatarHeight; }
 }

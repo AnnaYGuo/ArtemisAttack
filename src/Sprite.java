@@ -1,2 +1,7 @@
-package PACKAGE_NAME;public interface Sprite {
+public interface Sprite {
+    void print();
+    int getX();
+    int getY();
+    int getWidth();
+    int getHeight();
 }
